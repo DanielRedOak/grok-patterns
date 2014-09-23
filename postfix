@@ -53,7 +53,7 @@ POSTFIXSMTPDLOSTCONNECTION lost connection after %{DATA:smtp_response} from %{RE
 POSTFIXCLEANUP %{POSTFIXCLEANUPMESSAGE}|%{POSTFIXCLEANUPMESSAGE2}|%{POSTFIXCLEANUPMILTER}
 POSTFIXCLEANUPMESSAGE %{QUEUEID:qid}: (resent-)?message-id=<%{GREEDYDATA:messageid}>
 POSTFIXCLEANUPMILTER %{MILTERENDOFMESSAGE}
-POSTFIXCLEANUPMESSAGE2 %{QUEUEID:qid}: %{WORD:level}: %{WORD:reason} %{DATA:content}; from=<%{EMAILADDRESS:from}> to=<%{EMAILADDRESS:to}> proto=%{WORD:proto} helo=<%{HELO}>
+POSTFIXCLEANUPMESSAGE2 %{QUEUEID:qid}: %{WORD:level}: %{WORD:reason} %{DATA:content}; from=<(?:%{EMAILADDRESS:from})> to=<(?:%{EMAILADDRESS:to})> proto=%{WORD:proto} helo=<%{HELO}>
  
 # postfix/bounce
 POSTFIXBOUNCE %{QUEUEID:qid}: sender non-delivery notification: %{QUEUEID:bouncequeueid}
@@ -63,3 +63,11 @@ POSTFIXQMGR %{QUEUEID:qid}: (?:removed|from=<(?:%{EMAILADDRESS:from})?>(?:, size
  
 # postfix/anvil
 POSTFIXANVIL statistics: %{DATA:anvilstatistic} for (%{DATA:remotehost}) at %{SYSLOGTIMESTAMP:timestamp}
+
+# postfix/scache
+POSTFIXSCACHE %{POSTFIXSCACHESTAT}|%{POSTFIXSCACHETIMESTAMP}
+POSTFIXSCACHESTAT statistics: %{DATA:scachestatistic} hits=%{INT:hits} miss=%{INT:miss} success=%{INT:success}
+POSTFIXSCACHETIMESTAMP statistics: %{DATA:scachestatistic} %{SYSLOGTIMESTAMP: timestamp}
+
+# postfix/trivial-rewrite
+POSTFIXTRIVIALEREWRITE warning: database %{UNIXPATH:dbpath} is older than source file %{UNIXPATH:sourcepath}
