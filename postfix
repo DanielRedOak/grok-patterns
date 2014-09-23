@@ -53,7 +53,7 @@ POSTFIXSMTPDLOSTCONNECTION lost connection after %{DATA:smtp_response} from %{RE
 POSTFIXCLEANUP %{POSTFIXCLEANUPMESSAGE}|%{POSTFIXCLEANUPMESSAGE2}|%{POSTFIXCLEANUPMILTER}
 POSTFIXCLEANUPMESSAGE %{QUEUEID:qid}: (resent-)?message-id=<%{GREEDYDATA:messageid}>
 POSTFIXCLEANUPMILTER %{MILTERENDOFMESSAGE}
-POSTFIXCLEANUPMESSAGE2 %{QUEUEID:qid}: %{WORD:level}: %{WORD:reason} %{DATA:content}; from=<(?:%{EMAILADDRESS:from})> to=<(?:%{EMAILADDRESS:to})> proto=%{WORD:proto} helo=<%{HELO}>
+POSTFIXCLEANUPMESSAGE2 %{QUEUEID:qid}: %{WORD:level}: %{WORD:reason} %{GREEDYDATA:content}; from=<(%{EMAILADDRESS:from})?> to=<(%{EMAILADDRESS:to})?> proto=%{WORD:proto} helo=<%{HELO}>
  
 # postfix/bounce
 POSTFIXBOUNCE %{QUEUEID:qid}: sender non-delivery notification: %{QUEUEID:bouncequeueid}
